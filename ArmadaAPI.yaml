@@ -10,107 +10,6 @@ info:
     url: 'https://github.com'
     email: rythos42@gmail.com
 paths:
-  /factions:
-    summary: Factions
-    description: Resource related to factions.
-    get:
-      tags:
-        - faction
-      operationId: get_factions
-      summary: Return a list of factions.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                description: ''
-                minItems: 1
-                uniqueItems: true
-                x-examples:
-                  example-1:
-                    - name: Republic
-                      identifier: republic
-                    - name: Rebel
-                      identifier: rebel
-                    - name: Empire
-                      identifier: empire
-                    - name: Separatist
-                      identifier: separatist
-                items:
-                  $ref: '#/components/schemas/Faction'
-              examples:
-                example:
-                  value:
-                    - name: Republic
-                      id: republic
-                    - name: Rebel
-                      id: rebel
-                    - name: Empire
-                      id: empire
-                    - name: Separatist
-                      id: separatist
-      description: Return a list of factions.
-    x-last-modified: 1620443464394
-  '/factions/{factionId}/ships':
-    parameters:
-      - schema:
-          type: string
-        name: factionId
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags:
-        - faction
-        - ship
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Ship'
-      operationId: get-factions-factionIdentifier-ships
-      description: Return a list of ships that belong to the given faction.
-  '/factions/{factionId/squadrons':
-    get:
-      summary: Your GET endpoint
-      tags:
-        - squadron
-        - faction
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Squadron'
-      operationId: get-factions-factionIdentifier-squadrons
-      description: Return a list of squadrons that belong to the given faction.
-    parameters: []
-  '/factions/{factionId}/upgrades':
-    parameters:
-      - schema:
-          type: string
-        name: factionId
-        in: path
-        required: true
-    get:
-      summary: Your GET endpoint
-      tags:
-        - upgrade
-        - faction
-      responses:
-        '200':
-          description: OK
-      operationId: get-factions-factionIdentifier-upgrades
-      description: Return a list of upgrades that belong _only_ to the given faction.
   /squadrons:
     get:
       summary: Your GET endpoint
@@ -151,6 +50,10 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Upgrade'
       operationId: get-upgrades
       description: Return a list of all upgrades.
 components:
@@ -182,10 +85,10 @@ components:
         name:
           type: string
         id:
-          $ref: '#/components/schemas/AvailableDefenseTokenId'
-    AvailableDiceId:
+          $ref: '#/components/schemas/DefenseTokenId'
+    DiceId:
       type: string
-      title: AvailableDiceId
+      title: DiceId
       enum:
         - red
         - blue
@@ -261,9 +164,9 @@ components:
     Trait:
       title: Trait
       type: string
-    AvailableUpgradeIconId:
+    UpgradeIconId:
       type: string
-      title: AvailableUpgradeIconId
+      title: UpgradeIconId
       enum:
         - commander
         - defensive-retrofit
@@ -312,7 +215,7 @@ components:
         name:
           type: string
         id:
-          $ref: '#/components/schemas/AvailableKeywordId'
+          $ref: '#/components/schemas/KeywordId'
         ruleText:
           type: string
     PrintedKeyword:
@@ -323,9 +226,9 @@ components:
           $ref: '#/components/schemas/Keyword'
         value:
           type: integer
-    AvailableKeywordId:
+    KeywordId:
       type: string
-      title: AvailableKeywordId
+      title: KeywordId
       enum:
         - adept
         - ai
@@ -345,9 +248,9 @@ components:
         - snipe
         - strategic
         - swarm
-    AvailableDefenseTokenId:
+    DefenseTokenId:
       type: string
-      title: AvailableDefenseTokenId
+      title: DefenseTokenId
       enum:
         - brace
         - contain
@@ -360,15 +263,59 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/AvailableDiceId'
-        '':
+          $ref: '#/components/schemas/DiceId'
+        name:
           type: string
     UpgradeIcon:
       title: UpgradeIcon
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/AvailableUpgradeIconId'
+          $ref: '#/components/schemas/UpgradeIconId'
+        name:
+          type: string
+    Upgrade:
+      title: Upgrade
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        cardText:
+          type: string
+        cost:
+          type: integer
+        upgradeIcons:
+          type:
+            - array
+          items:
+            $ref: '#/components/schemas/UpgradeIcon'
+        isRecurring:
+          type: boolean
+        startingResources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Command'
+        recurranceCost:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommandId'
+    CommandId:
+      type: string
+      title: CommandId
+      enum:
+        - concentrate-fire
+        - navigate
+        - repair
+        - squadron
+        - any
+    Command:
+      title: Command
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/CommandId'
         name:
           type: string
   headers: {}
