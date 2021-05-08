@@ -53,6 +53,81 @@ paths:
                       identifier: separatist
       description: Return a list of factions.
     x-last-modified: 1620443464394
+  '/factions/{factionIdentifier}/ships':
+    parameters:
+      - schema:
+          type: string
+        name: factionIdentifier
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - faction
+        - ship
+      responses:
+        '200':
+          description: OK
+      operationId: get-factions-factionIdentifier-ships
+      description: Return a list of ships that belong to the given faction.
+  '/factions/{factionIdentifier/squadrons':
+    get:
+      summary: Your GET endpoint
+      tags:
+        - squadron
+        - faction
+      responses:
+        '200':
+          description: OK
+      operationId: get-factions-factionIdentifier-squadrons
+      description: Return a list of squadrons that belong to the given faction.
+  '/factions/{factionIdentifier}/upgrades':
+    parameters:
+      - schema:
+          type: string
+        name: factionIdentifier
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags:
+        - upgrade
+        - faction
+      responses:
+        '200':
+          description: OK
+      operationId: get-factions-factionIdentifier-upgrades
+      description: Return a list of upgrades that belong _only_ to the given faction.
+  /squadrons:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - squadron
+      responses:
+        '200':
+          description: OK
+      operationId: get-squadrons
+      description: Return a list of all squadrons.
+  /ships:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - ship
+      responses:
+        '200':
+          description: OK
+      operationId: get-ships
+      description: Return a list of all ships.
+  /upgrades:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - upgrade
+      responses:
+        '200':
+          description: OK
+      operationId: get-upgrades
+      description: Return a list of all upgrades.
 components:
   securitySchemes: {}
   schemas:
@@ -81,6 +156,7 @@ servers:
     description: Craig Fleming
 security: []
 tags:
-  - name: armada
   - name: faction
-  - name: star wars
+  - name: ship
+  - name: squadron
+  - name: upgrade
