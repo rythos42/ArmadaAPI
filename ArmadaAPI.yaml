@@ -1,64 +1,86 @@
-{
-  "openapi": "3.0.3",
-  "info": {
-    "title": "ArmadaAPI",
-    "version": "0.1",
-    "x-logo": {
-      "url": ""
-    },
-    "description": "Draft definition of an API supporting Star Wars Armada fleet building."
-  },
-  "paths": {
-    "/factions": {
-      "summary": "Factions",
-      "description": "\tResource related to factions.",
-      "get": {
-        "tags": [],
-        "operationId": "get_factions",
-        "summary": "Return a list of factions.",
-        "responses": {
-          "200": {
-            "description": "Return a list of factions.",
-            "content": {
-              "application/json": {
-                "example": "[\r\n\t{ \"name\": \"Republic\", \"identifier\": \"republic\" },\r\n    { \"name\": \"Rebel\", \"identifier\": \"rebel\" },\r\n    { \"name\": \"Empire\", \"identifier\": \"empire\" },\r\n    { \"name\": \"Separatist\", \"identifier\": \"separatist\" },\r\n]\r\n",
-                "schema": {
-                  "$ref": "#/components/schemas/Faction"
-                }
-              }
-            },
-            "x-last-modified": 1620443740388,
-            "headers": {},
-            "links": {}
-          }
-        }
-      },
-      "x-last-modified": 1620443464394
-    }
-  },
-  "components": {
-    "securitySchemes": {},
-    "schemas": {
-      "Faction": {
-        "type": "object",
-        "required": [
-          "name",
-          "identifier"
-        ],
-        "enum": [],
-        "properties": "description",
-        "x-last-modified": 1620444025667
-      }
-    },
-    "headers": {},
-    "responses": {},
-    "parameters": {}
-  },
-  "tags": [],
-  "servers": [
-    {
-      "url": "https://api.example.io"
-    }
-  ],
-  "security": []
-}
+openapi: 3.0.3
+info:
+  title: ArmadaAPI
+  version: '0.1'
+  x-logo:
+    url: ''
+  description: Draft definition of an API supporting Star Wars Armada fleet building.
+  contact:
+    name: Craig Fleming
+    url: 'https://github.com'
+    email: rythos42@gmail.com
+paths:
+  /factions:
+    summary: Factions
+    description: Resource related to factions.
+    get:
+      tags:
+        - faction
+      operationId: get_factions
+      summary: Return a list of factions.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                x-examples:
+                  example-1:
+                    - name: Republic
+                      identifier: republic
+                    - name: Rebel
+                      identifier: rebel
+                    - name: Empire
+                      identifier: empire
+                    - name: Separatist
+                      identifier: separatist
+                items:
+                  $ref: '#/components/schemas/Faction'
+              examples:
+                example-1:
+                  value:
+                    - name: Republic
+                      identifier: republic
+                    - name: Rebel
+                      identifier: rebel
+                    - name: Empire
+                      identifier: empire
+                    - name: Separatist
+                      identifier: separatist
+      description: Return a list of factions.
+    x-last-modified: 1620443464394
+components:
+  securitySchemes: {}
+  schemas:
+    Faction:
+      description: ''
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        identifier:
+          type: string
+          minLength: 1
+      required:
+        - name
+        - identifier
+      x-examples:
+        example-1:
+          name: Republic
+          identifier: republic
+  headers: {}
+  responses: {}
+  parameters: {}
+servers:
+  - url: 'https://api.example.io'
+    description: Craig Fleming
+security: []
+tags:
+  - name: armada
+  - name: faction
+  - name: star wars
