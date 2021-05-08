@@ -1,49 +1,64 @@
-openapi: 3.0.3
-info:
-  title: ArmadaAPI
-  version: '0.1'
-  x-logo:
-    url: ''
-  description: Draft definition of an API supporting Star Wars Armada fleet building.
-paths:
-  /factions:
-    summary: Factions
-    description: "\tResource related to factions."
-    get:
-      tags: []
-      operationId: get_factions
-      summary: Return a list of factions.
-      responses:
-        '200':
-          description: Return a list of factions.
-          content:
-            application/json:
-              example: "[\r\n\t{ \"name\": \"Republic\", \"identifier\": \"republic\" },\r\n    { \"name\": \"Rebel\", \"identifier\": \"rebel\" },\r\n    { \"name\": \"Empire\", \"identifier\": \"empire\" },\r\n    { \"name\": \"Separatist\", \"identifier\": \"separatist\" },\r\n]\r\n"
-              schema:
-                $ref: '#/components/schemas/Faction'
-          x-last-modified: 1620443740388
-          headers: {}
-          links: {}
-    x-last-modified: 1620443464394
-components:
-  securitySchemes: {}
-  schemas:
-    Faction:
-      type: object
-      required:
-        - name
-        - identifier
-      enum:
-        - republic
-        - ' rebel'
-        - empire
-        - separatist
-      properties: description
-      x-last-modified: 1620443621906
-  headers: {}
-  responses: {}
-  parameters: {}
-tags: []
-servers:
-  - url: https://api.example.io
-security: []
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ArmadaAPI",
+    "version": "0.1",
+    "x-logo": {
+      "url": ""
+    },
+    "description": "Draft definition of an API supporting Star Wars Armada fleet building."
+  },
+  "paths": {
+    "/factions": {
+      "summary": "Factions",
+      "description": "\tResource related to factions.",
+      "get": {
+        "tags": [],
+        "operationId": "get_factions",
+        "summary": "Return a list of factions.",
+        "responses": {
+          "200": {
+            "description": "Return a list of factions.",
+            "content": {
+              "application/json": {
+                "example": "[\r\n\t{ \"name\": \"Republic\", \"identifier\": \"republic\" },\r\n    { \"name\": \"Rebel\", \"identifier\": \"rebel\" },\r\n    { \"name\": \"Empire\", \"identifier\": \"empire\" },\r\n    { \"name\": \"Separatist\", \"identifier\": \"separatist\" },\r\n]\r\n",
+                "schema": {
+                  "$ref": "#/components/schemas/Faction"
+                }
+              }
+            },
+            "x-last-modified": 1620443740388,
+            "headers": {},
+            "links": {}
+          }
+        }
+      },
+      "x-last-modified": 1620443464394
+    }
+  },
+  "components": {
+    "securitySchemes": {},
+    "schemas": {
+      "Faction": {
+        "type": "object",
+        "required": [
+          "name",
+          "identifier"
+        ],
+        "enum": [],
+        "properties": "description",
+        "x-last-modified": 1620444025667
+      }
+    },
+    "headers": {},
+    "responses": {},
+    "parameters": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "https://api.example.io"
+    }
+  ],
+  "security": []
+}
