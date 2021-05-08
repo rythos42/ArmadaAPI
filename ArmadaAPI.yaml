@@ -41,23 +41,23 @@ paths:
                 items:
                   $ref: '#/components/schemas/Faction'
               examples:
-                example-1:
+                example:
                   value:
                     - name: Republic
-                      identifier: republic
+                      id: republic
                     - name: Rebel
-                      identifier: rebel
+                      id: rebel
                     - name: Empire
-                      identifier: empire
+                      id: empire
                     - name: Separatist
-                      identifier: separatist
+                      id: separatist
       description: Return a list of factions.
     x-last-modified: 1620443464394
-  '/factions/{factionIdentifier}/ships':
+  '/factions/{factionId}/ships':
     parameters:
       - schema:
           type: string
-        name: factionIdentifier
+        name: factionId
         in: path
         required: true
     get:
@@ -68,9 +68,15 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ship'
       operationId: get-factions-factionIdentifier-ships
       description: Return a list of ships that belong to the given faction.
-  '/factions/{factionIdentifier/squadrons':
+  '/factions/{factionId/squadrons':
     get:
       summary: Your GET endpoint
       tags:
@@ -79,13 +85,20 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Squadron'
       operationId: get-factions-factionIdentifier-squadrons
       description: Return a list of squadrons that belong to the given faction.
-  '/factions/{factionIdentifier}/upgrades':
+    parameters: []
+  '/factions/{factionId}/upgrades':
     parameters:
       - schema:
           type: string
-        name: factionIdentifier
+        name: factionId
         in: path
         required: true
     get:
@@ -106,6 +119,12 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Squadron'
       operationId: get-squadrons
       description: Return a list of all squadrons.
   /ships:
@@ -116,6 +135,12 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ship'
       operationId: get-ships
       description: Return a list of all ships.
   /upgrades:
@@ -134,20 +159,218 @@ components:
     Faction:
       description: ''
       type: object
+      x-examples:
+        example:
+          name: Republic
+          id: republic
       properties:
         name:
           type: string
           minLength: 1
-        identifier:
+        id:
           type: string
           minLength: 1
       required:
         - name
-        - identifier
+        - id
+    DefenseToken:
+      description: ''
       x-examples:
-        example-1:
-          name: Republic
-          identifier: republic
+        example: Brace
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          $ref: '#/components/schemas/AvailableDefenseTokenId'
+    AvailableDiceId:
+      type: string
+      title: AvailableDiceId
+      enum:
+        - red
+        - blue
+        - black
+    Ship:
+      title: Ship
+      type: object
+      description: ''
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        hull:
+          type: integer
+        flak:
+          $ref: '#/components/schemas/PrintedDicePool'
+        defenseTokens:
+          $ref: '#/components/schemas/PrintedDefenseTokenSuite'
+        command:
+          type: integer
+        squadron:
+          type: integer
+        engineering:
+          type: integer
+        frontArc:
+          $ref: '#/components/schemas/PrintedDicePool'
+        leftArc:
+          $ref: '#/components/schemas/PrintedDicePool'
+        rightArc:
+          $ref: '#/components/schemas/PrintedDicePool'
+        rearArc:
+          $ref: '#/components/schemas/PrintedDicePool'
+        yawChart:
+          $ref: '#/components/schemas/YawChart'
+        traits:
+          type: array
+          items:
+            $ref: '#/components/schemas/Trait'
+        points:
+          type: integer
+        upgradeIcons:
+          type: array
+          items:
+            $ref: '#/components/schemas/UpgradeIcon'
+        faction:
+          $ref: '#/components/schemas/Faction'
+    PrintedDicePool:
+      title: PrintedDicePool
+      type: array
+      items:
+        $ref: '#/components/schemas/Dice'
+    PrintedDefenseTokenSuite:
+      title: PrintedDefenseTokenSuite
+      type: array
+      items:
+        $ref: '#/components/schemas/DefenseToken'
+    Yaw:
+      type: integer
+      title: Yaw
+      minimum: 0
+      maximum: 2
+    YawAtSpeed:
+      title: YawAtSpeed
+      type: array
+      items:
+        $ref: '#/components/schemas/Yaw'
+    YawChart:
+      title: YawChart
+      type: array
+      items:
+        $ref: '#/components/schemas/YawAtSpeed'
+    Trait:
+      title: Trait
+      type: string
+    AvailableUpgradeIconId:
+      type: string
+      title: AvailableUpgradeIconId
+      enum:
+        - commander
+        - defensive-retrofit
+        - experimental-retrofit
+        - fleet-command
+        - fleet-support
+        - ion-cannon
+        - offensive-retrofit
+        - officer
+        - ordnance
+        - superweapon
+        - support-team
+        - title
+        - turblolaser
+        - weapons-team
+    Squadron:
+      title: Squadron
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        speed:
+          type: integer
+        hull:
+          type: integer
+        antiShip:
+          $ref: '#/components/schemas/PrintedDicePool'
+        antiSquadron:
+          $ref: '#/components/schemas/PrintedDicePool'
+        specialAbility:
+          type: string
+        keywords:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrintedKeyword'
+    Keyword:
+      title: Keyword
+      type: object
+      x-examples:
+        example:
+          id: escort
+          name: Escort
+      properties:
+        name:
+          type: string
+        id:
+          $ref: '#/components/schemas/AvailableKeywordId'
+        ruleText:
+          type: string
+    PrintedKeyword:
+      title: PrintedKeyword
+      type: object
+      properties:
+        keyword:
+          $ref: '#/components/schemas/Keyword'
+        value:
+          type: integer
+    AvailableKeywordId:
+      type: string
+      title: AvailableKeywordId
+      enum:
+        - adept
+        - ai
+        - assault
+        - bomber
+        - cloak
+        - counter
+        - dodge
+        - escort
+        - grit
+        - heavy
+        - intel
+        - relay
+        - rogue
+        - scout
+        - screen
+        - snipe
+        - strategic
+        - swarm
+    AvailableDefenseTokenId:
+      type: string
+      title: AvailableDefenseTokenId
+      enum:
+        - brace
+        - contain
+        - evade
+        - redirect
+        - salvo
+        - scatter
+    Dice:
+      title: Dice
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/AvailableDiceId'
+        '':
+          type: string
+    UpgradeIcon:
+      title: UpgradeIcon
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/AvailableUpgradeIconId'
+        name:
+          type: string
   headers: {}
   responses: {}
   parameters: {}
